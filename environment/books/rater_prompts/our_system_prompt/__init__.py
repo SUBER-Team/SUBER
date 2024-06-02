@@ -1,0 +1,3 @@
+from .third_person_descriptive import ThirdPersonDescriptive15_OurSys
+from .third_person_descriptive_1prompt import ThirdPersonDescriptive15_1Shot_OurSys
+from .third_person_descriptive_2prompt import ThirdPersonDescriptive15_2Shot_OurSys

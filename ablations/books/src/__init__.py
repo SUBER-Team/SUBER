@@ -1,0 +1,5 @@
+from .high_ratings import HighRatingStudy
+from .low_ratings import LowRatingStudy
+from .category_preference import CategoryPreferenceStudy
+from .books_collection import BooksCollectionStudy
+from .sampling_subset import SamplingSubsetInteractionsStudy
