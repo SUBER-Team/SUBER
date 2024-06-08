@@ -10,12 +10,19 @@ This repository accompanies our research paper titled "**An LLM-based Recommende
 
 #### Our paper:
 
-"**[An LLM-based Recommender System Environment](http://arxiv.org/abs/)**" by *Nathan Coreco\*, Giorgio Piatti\*, Luca A. Lanzendörfer, Flint Xiaofeng Fan, Roger Wattenhofer*.
+"**[An LLM-based Recommender System Environment](http://arxiv.org/abs/2406.01631)**" by *Nathan Coreco\*, Giorgio Piatti\*, Luca A. Lanzendörfer, Flint Xiaofeng Fan, Roger Wattenhofer*.
 
 **Citation:**
 
 ```bibTeX
-
+@misc{corecco2024llmbased,
+      title={An LLM-based Recommender System Environment}, 
+      author={Nathan Corecco and Giorgio Piatti and Luca A. Lanzendörfer and Flint Xiaofeng Fan and Roger Wattenhofer},
+      year={2024},
+      eprint={2406.01631},
+      archivePrefix={arXiv},
+      primaryClass={cs.IR}
+}
 ```
 
 We open source `SUBER`, a Reinforcement Learning (RL) environment for recommender systems.
