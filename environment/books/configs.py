@@ -1,11 +1,15 @@
 import argparse
 import os
+import warnings
+
+# Suppress specific warning
+warnings.filterwarnings("ignore")
 
 from environment import LLM
 from environment.books.books_loader import BooksLoader
 from environment.books.books_retrieval import SimpleBookRetrieval
-from ..env import Simulatio4RecSys
-from ..users import UsersCSVLoader
+from environment.env import Simulatio4RecSys
+from environment.users import UsersCSVLoader
 from ..items_retrieval import (
     SentenceSimilarityItemsRetrieval,
     TimeItemsRetrieval,
@@ -24,7 +28,6 @@ from environment.reward_shaping import (
 )
 
 from gymnasium.utils.env_checker import check_env
-
 
 # Single module loading utils
 OPTIONS_LLM_RATER = [
@@ -225,5 +228,10 @@ def get_enviroment_from_args(llm, args, seed=None, render_mode=None):
         reward_shaping=get_reward_shaping(args.reward_shaping, seed),
     )
     env.reset(seed=seed)
+
+    #env.spec = EnvSpec("My_Env-v0", entry_point="environment.env:Simulatio4RecSys")
+
+    
     check_env(env)
+    
     return env
