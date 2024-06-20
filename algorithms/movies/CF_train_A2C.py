@@ -31,7 +31,7 @@ from environment.movies.configs import get_base_parser, get_enviroment_from_args
 # Define arguments
 def parse_args():
     parser = get_base_parser()
-    parser.add_argument("--model-device", type=str, default="cuda:1")
+    parser.add_argument("--model-device", type=str, default="cuda:0")
     parser.add_argument("--gamma", type=float, default=0.975)
     parser.add_argument("--embedding-dim", type=int, default=32)
     parser.add_argument("--path-ckpt", type=str, default=None)
