@@ -43,6 +43,16 @@ def parse_args():
     args = parser.parse_args()
     return args
 
+def linear_schedule(initial_value: float):
+    """
+    Linear learning rate schedule.
+
+    :param initial_value: Initial learning rate value.
+    :return: Function that computes the learning rate given the progress (from 1 to 0).
+    """
+    def func(progress: float) -> float:
+        return initial_value * progress
+    return func
 
 # Define model
 class Net(nn.Module):
@@ -169,6 +179,10 @@ if __name__ == "__main__":
     args = parse_args()
     llm = load_LLM(args.llm_model)
 
+    # Create the learning rate schedule
+    initial_learning_rate = 0.0007
+    lr_scheduler = linear_schedule(initial_learning_rate)
+
     train_env = get_enviroment_from_args(llm, args)
 
     test_env = get_enviroment_from_args(
@@ -204,6 +218,7 @@ if __name__ == "__main__":
         verbose=1,
         policy_kwargs=policy_kwargs,
         device=args.model_device,
+        learning_rate=lr_scheduler,
         tensorboard_log=f"./tmp/runs/{run.id}",
         gamma=args.gamma,
     )
@@ -236,6 +251,6 @@ if __name__ == "__main__":
 
     print(model.policy)
     print(args)
-    model.learn(total_timesteps=20000, progress_bar=True, callback=callback)
+    model.learn(total_timesteps=100000, progress_bar=True, callback=callback)
 
     run.finish()
