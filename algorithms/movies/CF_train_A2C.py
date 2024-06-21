@@ -241,8 +241,9 @@ if __name__ == "__main__":
             torch.load(f"{args.path_ckpt}/policy.optimizer.pth")
         )
 
-        model.learn(total_timesteps=400000, progress_bar=False, callback=callback)
+        model.learn(total_timesteps=4000, progress_bar=True, callback=callback)
     else:
-        model.learn(total_timesteps=1800000, progress_bar=False, callback=callback)
+        print("Running big one")
+        model.learn(total_timesteps=18000, progress_bar=True, callback=callback)
 
     run.finish()

@@ -236,6 +236,6 @@ if __name__ == "__main__":
 
     print(model.policy)
     print(args)
-    model.learn(total_timesteps=2000000, progress_bar=False, callback=callback)
+    model.learn(total_timesteps=20000, progress_bar=True, callback=callback)
 
     run.finish()
