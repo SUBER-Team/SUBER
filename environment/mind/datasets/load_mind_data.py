@@ -1,12 +1,11 @@
 import os
 import numpy as np
 import pandas as pd
+import csv
 from dataclasses import dataclass
 from typing import List, Dict
 import time
 import ast
-import faiss
-from tabulate import tabulate # This is rubbish
 import wikidata.client
 
 # Define paths to the MIND large dataset
@@ -31,8 +30,9 @@ behaviors_columns = ['impression_id', 'user_id', 'time', 'history', 'impressions
 
 def load_data(file_path, column_names):
     '''
-    Function to laod data into a Dataframe
+    Function to load data into a Dataframe
     '''
+    print("---file_path is {}".format(file_path))
     return pd.read_csv(file_path, sep='\t', names=column_names)
 
 
@@ -112,3 +112,23 @@ def get_wikidata_item_info(item_id):
         item_info["Statements"].append(prop_info)
 
     return item_info
+
+def save_catagories_to_csv(df):
+
+    news_cats_path = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)),
+        "../../mind/datasets/news_cats.csv",
+    )
+
+    unique_news_categories_list = df['category'].unique().tolist()
+    unique_news_subcategories_list = df['subcategory'].unique().tolist()
+    unique_combined_list = list(set(unique_news_categories_list + unique_news_subcategories_list))
+
+    with open(news_cats_path, 'w', newline='') as file:
+        writer = csv.writer(file)
+        # If you want each item on a new row
+        for item in unique_combined_list:
+            writer.writerow([item])
+    print("catagories save to file")
+        # If you want all items in a single row, uncomment the line below and comment the loop above
+        # writer.writerow(my_list)
