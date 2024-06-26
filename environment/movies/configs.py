@@ -291,7 +291,7 @@ def get_enviroment_from_args(
         items_loader=MoviesLoader(
             os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
-                "./datasets/",
+                "datasets/",
                 args.film_dataset + ".json",
             )
         ),

@@ -5,11 +5,12 @@ from environment.movies.movie import Movie
 
 class MoviesLoader(ItemsLoader):
     """
-    The MoviesLoader object is responsable to load movies that are stored in a json file
+    The MoviesLoader object is responsible to load movies that are stored in a json file
     """
 
     def __init__(self, json_file):
         self.dataset_file = json_file
+        print('self.dataset_file {}'.format(self.dataset_file))
         with open(self.dataset_file) as json_file:
             self.data = json.load(json_file)
 

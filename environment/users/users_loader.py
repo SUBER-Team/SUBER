@@ -49,9 +49,14 @@ class UsersCSVLoader(UsersLoader):
         name: str,
         base_dir: str = os.path.join(os.path.dirname(__file__), "./datasets"),
     ):
+        print("os path thing {}".format(os.path.dirname(__file__)))
+        print("name is {}".format(name))
+        print("basedir is {}".format(base_dir))
         self.path = os.path.join(base_dir, name + ".csv")
-
+        print("self.path is {}".format(self.path))
+        
     def get_users(self) -> List[User]:
+        print("self.path in user_loader is {}".format(self.path))
         df = pd.read_csv(self.path)
         users_list = []
         i = 0
