@@ -27,7 +27,7 @@ import gymnasium as gym
 
 # Our
 from algorithms.wrappers import StableBaselineWrapperNum
-from environment.books.configs import (
+from environment.mind.configs import (
     get_enviroment_from_args,
     get_base_parser,
 )
@@ -177,6 +177,7 @@ class ExtractPass(BaseFeaturesExtractor):
 
 if __name__ == "__main__":
     args = parse_args()
+    print("args".format(args))
     llm = load_LLM(args.llm_model)
 
     # Create the learning rate schedule
