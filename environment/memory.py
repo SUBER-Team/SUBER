@@ -20,7 +20,7 @@ class UserNewsInteraction:
     it contains the rating, the timestamp and the number of times the user has read the item until this interaction.
     """
 
-    def __init__(self, rating: float, timestamp: int, num_watches: int):
+    def __init__(self, rating: float, timestamp: int, num_reads: int):
         self.rating: float = rating
         self.timestamp: int = timestamp
         self.num_reads = num_reads
