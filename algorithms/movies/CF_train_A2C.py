@@ -182,7 +182,9 @@ if __name__ == "__main__":
 
     train_env = StableBaselineWrapperNum(train_env)
     test_env = Monitor(StableBaselineWrapperNum(test_env))
+    print("Checking train environment")
     check_env(train_env)
+    print("Checking  test environment")
     check_env(test_env)
 
     # Initialize wandb

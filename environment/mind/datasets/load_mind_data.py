@@ -24,7 +24,7 @@ relation_test_embedding_path = os.path.join(test_path, 'relation_embedding.vec')
 
 
 # Define column names for the datasets
-news_columns = ['news_id', 'category', 'subcategory', 'title', 'abstract', 'url', 'title_entities', 'abstract_entities']
+news_columns = ['id', 'category', 'subcategory', 'title', 'abstract', 'url', 'title_entities', 'abstract_entities']
 behaviors_columns = ['impression_id', 'user_id', 'time', 'history', 'impressions']
 
 
@@ -32,7 +32,7 @@ def load_data(file_path, column_names):
     '''
     Function to load data into a Dataframe
     '''
-    print("---file_path is {}".format(file_path))
+    #print("---file_path is {}".format(file_path))
     return pd.read_csv(file_path, sep='\t', names=column_names)
 
 
@@ -129,6 +129,6 @@ def save_catagories_to_csv(df):
         # If you want each item on a new row
         for item in unique_combined_list:
             writer.writerow([item])
-    print("catagories save to file")
+    print("--- catagories save to file")
         # If you want all items in a single row, uncomment the line below and comment the loop above
         # writer.writerow(my_list)

@@ -180,25 +180,33 @@ if __name__ == "__main__":
     llm = load_LLM(args.llm_model)
 
     # Create the learning rate schedule
+    print("--- LLM Loaded")
     initial_learning_rate = 0.0007
     lr_scheduler = linear_schedule(initial_learning_rate)
-
+    print("Preparing training environemnt")
     train_env = get_enviroment_from_args(llm, args)
+    print("training environment created")
 
+    print("Preparing test environment")
     test_env = get_enviroment_from_args(
         llm,
         args,
         seed=args.seed + 600,
     )
+    print("Test Environment created")
 
     # Create the custom actor-critic policy
     policy_kwargs = dict(
         features_extractor_class=ExtractPass,
     )
-
+    print("Policy Created for actor-critic")
+    print("Wrapping train_env in StableBaselineWRapper")
     train_env = StableBaselineWrapperNum(train_env)
+    print("Wrapping test_env in StableBaselineWrapper")
     test_env = Monitor(StableBaselineWrapperNum(test_env))
+    print("--- Checking train_env")
     check_env(train_env)
+    print("--- Checking test_env")
     check_env(test_env)
 
     # Initialize wandb

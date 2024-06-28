@@ -27,6 +27,8 @@ class ThirdPersonDescriptive09_OurSys(LLMRater):
         )
         self.cache_few_shot_prompts = None
 
+        print("in third_person_descript_0.9.py")
+
         self.system_prompt = (
             "You are a highly sophisticated movie rating assistant, equipped with an"
             " advanced understanding of human behavior. Your mission is to deliver"

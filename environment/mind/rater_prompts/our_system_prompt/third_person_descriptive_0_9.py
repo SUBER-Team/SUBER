@@ -38,7 +38,7 @@ class ThirdPersonDescriptive09_OurSys(LLMRater):
             " accurate ratings for news on a scale of 0 to 9, ensuring they resonate"
             " with the person's preferences and cinematic inclinations. Remain"
             " impartial and refrain from introducing any biases in your predictions."
-            " You are an impartial and reliable source of movie rating predictions for"
+            " You are an impartial and reliable source of news rating predictions for"
             " the given individual and film descriptions."
         )
 
@@ -122,25 +122,16 @@ class ThirdPersonDescriptive09_OurSys(LLMRater):
                 f' The news article is categorized as "{news.category}" with a subcategory of "{news.subcategory}" contains the following named entities:\n'
                 f"ent1, ent2" # TODO make code ot extract entities from news
             ) # TODO Should we reword this so it's categories and subcategories? 
+         
             + (
-                ":"
-                f" {actors_list}."
-                if "actors" in self.current_items_features_list
-                and len(movie.actors) > 0
-                else ""
+                f' On average, the new article as a click-through rate of "{news.click_through_rate}"' # TODO Need to work on the behaviors to see and count impressions and such
+                f" the news article has been read {news.read_frequency}."
+
             )
-            + (
-                f' On average, people rate the movie "{movie.title}"' # TODO Need to work on the behaviors to see and count impressions and such
-                f" {round(self.adjust_rating_in(movie.vote_average), 1)} on a scale of"
-                " 0 to 9."
-                if "vote_average" in self.current_items_features_list
-                and movie.vote_average > 0
-                else ""
-            )
-            + f' {name} watches the movie "{movie.title}" for the'
-            f" {self.number_to_rank(num_interacted+1)} time.\n"
-            + f"What can you conclude about {name}'s rating for the movie"
-            f' "{movie.title}" on a scale of 0 to 9, where 0 represents a low rating'
+            + f' {name} has read the news article, "{news.title}", for'
+            f" {self.number_to_rank(num_interacted+1)} times.\n"
+            + f"What can you conclude about {name}'s rating for the news article"
+            f' "{news.title}" on a scale of 0 to 9, where 0 represents a low rating'
             " and 9 represents a high rating, based on available information and"
             " logical reasoning?"
         )
