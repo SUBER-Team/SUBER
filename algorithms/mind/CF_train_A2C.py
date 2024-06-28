@@ -177,7 +177,6 @@ class ExtractPass(BaseFeaturesExtractor):
 
 if __name__ == "__main__":
     args = parse_args()
-    print("args".format(args))
     llm = load_LLM(args.llm_model)
 
     # Create the learning rate schedule
