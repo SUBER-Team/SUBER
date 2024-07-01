@@ -80,7 +80,7 @@ class News(Item):
     @staticmethod
     def from_dataframe(df: pd.DataFrame):
         return News(
-            id = df["id"],
+            id = df.index[0],
             category = df["category"],
             subcategory = df["subcategory"],
             title  = df["title"],

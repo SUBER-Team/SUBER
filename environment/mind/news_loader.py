@@ -121,7 +121,7 @@ class NewsLoader(ItemsLoader):
     def load_all_ids(self):
         '''
         define this abstract method
-        Return a list of integers containing the ids of all movies
+        Return a list of ids
         '''
         return self.data.index.tolist()
 
@@ -143,9 +143,9 @@ class NewsLoader(ItemsLoader):
         '''
         news = []
         for id in id_list:
-            print("ID is {}".format(id))
-            print("\t{}\t\n".format(self.data.loc[[id]].reset_index()))
-            news.append(News.from_dataframe(self.data.loc[[id]].reset_index()))
+            #print("ID is {}".format(id))
+            #print("\t{}\t\n".format(self.data.loc[[id]]))
+            news.append(News.from_dataframe(self.data.loc[[id]]))
         return news
 
         

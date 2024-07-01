@@ -12,11 +12,12 @@ from environment.item import ItemsLoader
 from environment.items_retrieval import ItemsRetrieval
 from environment.items_selection import ItemsSelector
 from environment.LLM import LLMRater
-from environment.memory import Memory
+from environment.memory import Memory,NewsMemory
 from environment.reward_perturbator import RewardPerturbator
 from environment.reward_shaping import RewardShaping
 from environment.users import UsersLoader
 
+from environment.mind.news_loader import NewsLoader
 
 class Simulatio4RecSys(gym.Env):
     def __init__(
@@ -105,8 +106,16 @@ class Simulatio4RecSys(gym.Env):
 
         """
         Initialize Memory
+        
+        Note: Added check for a NewsLoader to accompodate MIND.
+        There might be a better way to do the memory -- more abstract/generic but this
+        works for now.
+
         """
-        self.memory = Memory(self.items_loader)
+        if isinstance(self.items_loader, NewsLoader):
+            self.memory = NewsMemory(self.items_loader)
+        else:
+            self.memory = Memory(self.items_loader)
 
         self.items_retrieval = items_retrieval
         self.items_selector = items_selector
@@ -259,7 +268,7 @@ class Simulatio4RecSys(gym.Env):
             "LLM_interaction_HTML": html_interaction,
         }
 
-        item_interaction = self.memory.user_to_seen_films[self._user.id][item_id]
+        item_interaction = self.memory.user_to_seen_news_articles[self._user.id][item_id]
         reward, reward_shaping_termination = self.reward_shaping.reshape(
             item_interaction, reward
         )
@@ -314,7 +323,13 @@ class Simulatio4RecSys(gym.Env):
                 )
 
     def clean_memory(self):
-        self.memory = Memory(self.items_loader)
+        '''
+        Modified to account for NewsMemory
+        '''
+        if isinstance(self.items_loader, NewsLoader):
+            self.memory = NewsMemory(self.items_loader)
+        else:
+            self.memory = Memory(self.items_loader)
 
     def delete_user_item(self, user_id: int, action: int):
         """

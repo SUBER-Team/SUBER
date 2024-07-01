@@ -189,7 +189,7 @@ class NewsMemory:
         self.items_loader = items_loader
 
     def update_memory(
-        self, user_id: str, items_ids: typing.List[int], scores: typing.List[float]
+        self, user_id: str, items_ids: typing.List[str], scores: typing.List[float]
     ):
         """
         Updates the memory for a given user with respect to new item IDs and scores.
@@ -206,7 +206,7 @@ class NewsMemory:
             self._initialize_user(user_id)
         for i, item_id in enumerate(items_ids):
             self.user_num_items_interact[user_id] += 1
-            if item_id in self.user_to_seen_films[user_id]:
+            if item_id in self.user_to_seen_news_articles[user_id]:
                 self.user_to_seen_news_articles[user_id][item_id].append(
                     UserNewsInteraction(
                         scores[i],
