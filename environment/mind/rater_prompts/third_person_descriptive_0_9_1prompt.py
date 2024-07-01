@@ -29,6 +29,7 @@ class ThirdPersonDescriptive09_1Shot(ThirdPersonDescriptive09):
         )
         self.cache_few_shot_prompts = None
         self.switch_user = switch_user
+        print("_0_9_1")
 
     def _get_few_shot_prompts(self):
         if self.cache_few_shot_prompts is None:

@@ -26,6 +26,7 @@ class ThirdPersonDescriptive09(LLMRater):
             llm_query_explanation,
         )
         self.cache_few_shot_prompts = None
+        print("_0_9.py")
 
     def adjust_rating_in(self, rating):
         return rating - 1

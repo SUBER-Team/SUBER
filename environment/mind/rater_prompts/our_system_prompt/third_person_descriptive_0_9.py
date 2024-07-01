@@ -26,6 +26,7 @@ class ThirdPersonDescriptive09_OurSys(LLMRater):
             llm_query_explanation,
         )
         self.cache_few_shot_prompts = None
+        print("---- 0_9.py")
 
         self.system_prompt = (
             "You are a highly sophisticated news rating assistant, equipped with an"

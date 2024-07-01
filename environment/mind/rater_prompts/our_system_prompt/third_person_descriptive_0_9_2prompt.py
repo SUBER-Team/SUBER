@@ -29,6 +29,7 @@ class ThirdPersonDescriptive09_2Shot_OurSys(ThirdPersonDescriptive09_OurSys):
         )
         self.cache_few_shot_prompts = None
         self.switch_order = switch_order
+        print("---- 0_9_2.py")
 
     def _get_few_shot_prompts(self):
         if self.cache_few_shot_prompts is None:
