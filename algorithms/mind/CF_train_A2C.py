@@ -34,6 +34,11 @@ from environment.mind.configs import (
 from environment import load_LLM
 
 
+import logging
+import algorithms.logging_config  # This sets up the logging configuration
+
+logger = logging.getLogger(__name__)
+
 # Define arguments
 def parse_args():
     parser = get_base_parser()
@@ -180,33 +185,31 @@ if __name__ == "__main__":
     llm = load_LLM(args.llm_model)
 
     # Create the learning rate schedule
-    print("--- LLM Loaded")
-    initial_learning_rate = 0.0007
-    lr_scheduler = linear_schedule(initial_learning_rate)
-    print("Preparing training environemnt")
+    logger.info("LLM Loaded")
+    initial_learning_rate = 0.001
+    #lr_scheduler = linear_schedule(initial_learning_rate)
+    logger.info("Preparing training environemnt")
     train_env = get_enviroment_from_args(llm, args)
-    print("training environment created")
+    logger.info("training environment created")
 
-    print("Preparing test environment")
+    logger.info("Preparing test environment")
     test_env = get_enviroment_from_args(
         llm,
         args,
         seed=args.seed + 600,
     )
-    print("Test Environment created")
+    logger.info("Test Environment created")
 
     # Create the custom actor-critic policy
     policy_kwargs = dict(
         features_extractor_class=ExtractPass,
     )
-    print("Policy Created for actor-critic")
-    print("Wrapping train_env in StableBaselineWRapper")
+
     train_env = StableBaselineWrapperNum(train_env)
-    print("Wrapping test_env in StableBaselineWrapper")
     test_env = Monitor(StableBaselineWrapperNum(test_env))
-    print("--- Checking train_env")
+    logger.info("--- Checking train_env")
     check_env(train_env)
-    print("--- Checking test_env")
+    logging.info("--- Checking test_env")
     check_env(test_env)
 
     # Initialize wandb
@@ -219,14 +222,14 @@ if __name__ == "__main__":
         dir="./tmp/wandb",
     )
 
-    print("args.model.device is {}".format(args.model_device))
+    logger.info("args.model.device is {}".format(args.model_device))
     model = A2C(
         CustomActorCriticPolicy,
         train_env,
         verbose=1,
         policy_kwargs=policy_kwargs,
         device=args.model_device,
-        learning_rate=lr_scheduler,
+        learning_rate=initial_learning_rate,
         tensorboard_log=f"./tmp/runs/{run.id}",
         gamma=args.gamma,
     )
@@ -241,14 +244,14 @@ if __name__ == "__main__":
         test_env,
         best_model_save_path=f"./tmp/models/{run.id}",
         log_path=f"./tmp/models/{run.id}",
-        eval_freq=10000,
+        eval_freq=1000,
         n_eval_episodes=10,
         deterministic=True,
         render=False,
     )
 
     checkpoint_callback = CheckpointCallback(
-        save_freq=10000 * 10,
+        save_freq=1000 * 10,
         save_path=f"./tmp/models/{run.id}",
         name_prefix="rl_model",
         save_replay_buffer=False,
@@ -257,8 +260,7 @@ if __name__ == "__main__":
 
     callback = CallbackList([wandb_callback, eval_callback, checkpoint_callback])
 
-    print(model.policy)
-    print(args)
-    model.learn(total_timesteps=100000, progress_bar=True, callback=callback)
+    logger.info(model.policy)
+    model.learn(total_timesteps=10000, progress_bar=True, callback=callback)
 
     run.finish()
