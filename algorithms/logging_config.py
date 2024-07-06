@@ -1,22 +1,22 @@
-# logging_config.py
-# logging_config.py
 import logging
 from logging.handlers import RotatingFileHandler
 
-def setup_logging():
-    # Check if the root logger already has handlers (to prevent adding multiple handlers)
-    if not logging.getLogger().hasHandlers():
-        # Set up basic configuration for the root logger
-        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+def get_logger(name):
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.DEBUG)
 
+    # Check if the logger already has handlers
+    if not logger.handlers:
         # Create a rotating file handler
-        handler = RotatingFileHandler('suber.log', maxBytes=2000, backupCount=5)
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        handler.setFormatter(formatter)
+        file_handler = RotatingFileHandler('suber.log', maxBytes=1000000, backupCount=5)
+        file_handler.setLevel(logging.DEBUG)
 
-        # Add the rotating file handler to the root logger
-        logging.getLogger().addHandler(handler)
+        # Create a formatter and set it for the handler
+        formatter = logging.Formatter('%(asctime)s - %(filename)s - %(name)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(formatter)
 
-# Call setup_logging to ensure the configuration is applied
-setup_logging()
+        # Add the file handler to the logger
+        logger.addHandler(file_handler)
+
+    return logger
 

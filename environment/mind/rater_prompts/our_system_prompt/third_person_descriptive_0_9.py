@@ -9,6 +9,12 @@ from environment.mind import News, NewsLoader
 from environment.users import User
 
 
+import logging
+from algorithms.logging_config  import get_logger
+
+logger = get_logger("suber_logger")
+
+
 class ThirdPersonDescriptive09_OurSys(LLMRater):
     def __init__(
         self,
@@ -26,7 +32,7 @@ class ThirdPersonDescriptive09_OurSys(LLMRater):
             llm_query_explanation,
         )
         self.cache_few_shot_prompts = None
-        print("---- 0_9.py")
+        
 
         self.system_prompt = (
             "You are a highly sophisticated news rating assistant, equipped with an"
@@ -79,7 +85,7 @@ class ThirdPersonDescriptive09_OurSys(LLMRater):
         item_interaction = ""  # NOTE it should be parametrized
         for m, i in zip(retrieved_items, interactions):
             item_interaction += (
-                f'"{m.title}" ({int(self.adjust_rating_in(i.rating))}), '
+                f'\n - "{m.title}" ({int(self.adjust_rating_in(i.rating))}), '
             )
         if len(retrieved_items) > 0:
             item_interaction = item_interaction[:-2]  # remove last comma
@@ -110,28 +116,28 @@ class ThirdPersonDescriptive09_OurSys(LLMRater):
             f"{name} is a {user.age} years old {gender},"
             f" {pronoun} is {self.adjust_text_in(user.description, do_rename)}\n"
             + (
-                f"{name} has previously read the following news articles (in"
+                f"\n{name} has previously read the following news articles (in"
                 " parentheses are the ratings he gave on a scale of 0 to 9):"
                 f" {item_interaction}.\n"
                 if len(retrieved_items) > 0
                 and len(self.previous_items_features_list) > 0
                 else ""
             )
-            + f'Consider the news "{news.title}"'
-            f" which is described as follows: {overview}"
+            + f'\nConsider the news article entitled "{news.title}".'
+            f" It is described as follows: {overview}\n"
             + (
-                f' The news article is categorized as "{news.category}" with a subcategory of "{news.subcategory}" contains the following named entities:\n'
-                f"ent1, ent2" # TODO make code ot extract entities from news
+                f'\nThe news article is categorized as "{news.category}" with a subcategory of "{news.subcategory}". '
+                #f"It contains the following named entities:\n ent1, ent2\n\n" # TODO make code ot extract entities from news
             ) # TODO Should we reword this so it's categories and subcategories? 
          
             + (
-                f' On average, the new article as a click-through rate of "{news.click_through_rate}"' # TODO Need to work on the behaviors to see and count impressions and such
-                f" the news article has been read {news.read_frequency}."
+                f'On average, the new article as a click-through rate of {news.click_through_rate} and ' # TODO Need to work on the behaviors to see and count impressions and such
+                f"the news article has been read {news.read_frequency} times.\n\n"
 
             )
-            + f' {name} has read the news article, "{news.title}", for'
+            + f'{name} has read the news article, "{news.title}", for'
             f" {self.number_to_rank(num_interacted+1)} times.\n"
-            + f"What can you conclude about {name}'s rating for the news article"
+            + f"\nWhat can you conclude about {name}'s rating for the news article"
             f' "{news.title}" on a scale of 0 to 9, where 0 represents a low rating'
             " and 9 represents a high rating, based on available information and"
             " logical reasoning?"
@@ -141,7 +147,8 @@ class ThirdPersonDescriptive09_OurSys(LLMRater):
             f"Based on {name}'s preferences and tastes, I conclude that {pronoun} will"
             " assign a rating of "
         )
-
+        logger.info("PROMPT: {}".format(prompt))
+        logger.info("initial_assistant:  {}".format(initial_assistant))
         return [
             {"role": "user", "content": prompt},
             {"role": "assistant_start", "content": initial_assistant},

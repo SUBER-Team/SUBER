@@ -7,7 +7,9 @@ from environment.item import ItemsLoader
 from environment.mind.news import News
 from environment.mind.datasets.load_mind_data import load_data, news_columns, behaviors_columns, train_path, save_catagories_to_csv
 
+from algorithms.logging_config  import get_logger
 
+logger = get_logger("suber_logger")
 
 
 class NewsLoader(ItemsLoader):
@@ -30,7 +32,7 @@ class NewsLoader(ItemsLoader):
         data_path = os.path.join(pp_save_path, "news_pp.csv")
         if os.path.exists(data_path):
             # Load the preprocessed data if it exists
-            print(f"---{data_path} exists. Loading preprocessed data.")
+            logger.info(f"{data_path} exists. Loading preprocessed data.")
 
             self.data = pd.read_csv(data_path)
         else:
@@ -47,17 +49,17 @@ class NewsLoader(ItemsLoader):
         '''
         Load the original data and preprocess it if the preprocessed file does not exist
         '''
-        print(f"--- {pp_save_path} does not exist. Proceeding with data augmentation.")
+        logger.info(f"{pp_save_path} does not exist. Proceeding with data augmentation.")
 
         self.data = load_data(os.path.join(train_path, 'news.tsv'), news_columns)
         self.behaviors = load_data(os.path.join(train_path, 'behaviors.tsv'), behaviors_columns)
 
         # I'm saving these off as I use them later
-        print("--- Saving off list of catagories first.")
+        logger.info("Saving off list of catagories first.")
         save_catagories_to_csv(self.data)
 
         # Create a dataframe to store click counts and impression counts
-        print("--- Augmenting News Data with Historical User Behavior and Impressions")
+        logger.info("Augmenting News Data with Historical User Behavior and Impressions")
 
         # make impressions a list
         self.behaviors['impressions'] = self.behaviors['impressions'].str.split()
@@ -87,7 +89,7 @@ class NewsLoader(ItemsLoader):
         gc.collect()
 
         # Flatten the history column into a single list
-        print("--- Processing User Read History")
+        logger.info("Processing User Read History")
         all_histories = self.behaviors['history'].str.split().explode().dropna()
 
         # Count occurrences of each article in the history
@@ -115,7 +117,7 @@ class NewsLoader(ItemsLoader):
         data_path = os.path.join(pp_save_path, "news_pp.csv")
         # Save the preprocessed data to news_pp.csv
         self.data.to_csv(data_path, index=False)
-        print(f"--- Preprocessed data saved to {data_path} for later use.")
+        logger.info(f"--- Preprocessed data saved to {data_path} for later use.")
 
 
     def load_all_ids(self):

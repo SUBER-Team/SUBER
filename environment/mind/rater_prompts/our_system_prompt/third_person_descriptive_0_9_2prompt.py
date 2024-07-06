@@ -9,6 +9,10 @@ from environment.memory import UserNewsInteraction
 from environment.mind import News, NewsLoader
 from environment.users import User
 
+from algorithms.logging_config  import get_logger
+
+logger = get_logger("suber_logger")
+
 
 class ThirdPersonDescriptive09_2Shot_OurSys(ThirdPersonDescriptive09_OurSys):
     def __init__(
@@ -29,7 +33,7 @@ class ThirdPersonDescriptive09_2Shot_OurSys(ThirdPersonDescriptive09_OurSys):
         )
         self.cache_few_shot_prompts = None
         self.switch_order = switch_order
-        print("---- 0_9_2.py")
+
 
     def _get_few_shot_prompts(self):
         if self.cache_few_shot_prompts is None:
@@ -163,4 +167,5 @@ class ThirdPersonDescriptive09_2Shot_OurSys(ThirdPersonDescriptive09_OurSys):
                         "content": prompt2[1]["content"] + explanation2,
                     },
                 ]
+        logger.info("few shot prompts : {}".format(self.cache_few_shot_prompts))
         return self.cache_few_shot_prompts

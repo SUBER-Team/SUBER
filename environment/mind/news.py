@@ -81,58 +81,17 @@ class News(Item):
     def from_dataframe(df: pd.DataFrame):
         return News(
             id = df.index[0],
-            category = df["category"],
-            subcategory = df["subcategory"],
-            title  = df["title"],
-            abstract = df["abstract"],
-            url = df["url"],
-            title_entities = df["title_entities"],
-            abstract_entities = df["abstract_entities"],
-            clicks = df["clicks"],
-            impressions = df["impressions"],
-            click_through_rate = df["click_through_rate"],
-            read_frequency = df["read_frequency"],
-            vote_count = df["vote_count"],
-            vote_average = df["vote_average"]
+            category = df["category"].iloc[0],
+            subcategory = df["subcategory"].iloc[0],
+            title  = df["title"].iloc[0],
+            abstract = df["abstract"].iloc[0],
+            url = df["url"].iloc[0],
+            title_entities = df["title_entities"].iloc[0],
+            abstract_entities = df["abstract_entities"].iloc[0],
+            clicks = int(df["clicks"].iloc[0]),
+            impressions = df["impressions"].iloc[0],
+            click_through_rate = int(df["click_through_rate"].iloc[0]),
+            read_frequency = int(df["read_frequency"].iloc[0]),
+            vote_count = int(df["vote_count"].iloc[0]),
+            vote_average = df["vote_average"].iloc[0]
         )
-
-
-
-# Note that this may not be needed
-@dataclass
-class UserBehavior(Item):
-    '''
-    Data structure for a user behavior
-    '''
-    impression_id: str
-    user_id: str
-    time: str
-    history: List[str]
-    impressions: List[str]
-
-
-    def __init__(
-        self,
-        impression_id: str,
-        user_id: str,
-        time: str,
-        history: list[str],
-        impressions: List[str],        
-    ):
-        super().__init__(id, title)
-        self.impression_id = impression_id
-        self.user_id = user_ids
-        self.time = time
-        self.history = history
-        self.impressions = impressions
-
-    @staticmethod
-    def from_dataframe(df: pd.DataFrame):
-        return NewsArticle(
-            impression_id = df["impression_id"],
-            user_id = df["user_id"],
-            time = df["time"],
-            history  = df["history"],
-            impressions = df["impressions"],
-        )
-

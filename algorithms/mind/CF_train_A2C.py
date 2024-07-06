@@ -35,9 +35,9 @@ from environment import load_LLM
 
 
 import logging
-import algorithms.logging_config  # This sets up the logging configuration
+from algorithms.logging_config  import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger("suber_logger")
 
 # Define arguments
 def parse_args():
