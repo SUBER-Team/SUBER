@@ -167,5 +167,5 @@ class ThirdPersonDescriptive09_2Shot_OurSys(ThirdPersonDescriptive09_OurSys):
                         "content": prompt2[1]["content"] + explanation2,
                     },
                 ]
-        logger.info("few shot prompts : {}".format(self.cache_few_shot_prompts))
+        #logger.info("few shot prompts : {}".format(self.cache_few_shot_prompts))
         return self.cache_few_shot_prompts

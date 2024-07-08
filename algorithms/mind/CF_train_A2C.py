@@ -33,8 +33,6 @@ from environment.mind.configs import (
 )
 from environment import load_LLM
 
-
-import logging
 from algorithms.logging_config  import get_logger
 
 logger = get_logger("suber_logger")
@@ -209,7 +207,7 @@ if __name__ == "__main__":
     test_env = Monitor(StableBaselineWrapperNum(test_env))
     logger.info("--- Checking train_env")
     check_env(train_env)
-    logging.info("--- Checking test_env")
+    logger.info("--- Checking test_env")
     check_env(test_env)
 
     # Initialize wandb
@@ -261,6 +259,6 @@ if __name__ == "__main__":
     callback = CallbackList([wandb_callback, eval_callback, checkpoint_callback])
 
     logger.info(model.policy)
-    model.learn(total_timesteps=10000, progress_bar=True, callback=callback)
+    model.learn(total_timesteps=20000, progress_bar=True, callback=callback)
 
     run.finish()

@@ -147,8 +147,8 @@ class ThirdPersonDescriptive09_OurSys(LLMRater):
             f"Based on {name}'s preferences and tastes, I conclude that {pronoun} will"
             " assign a rating of "
         )
-        logger.info("PROMPT: {}".format(prompt))
-        logger.info("initial_assistant:  {}".format(initial_assistant))
+        #logger.info("PROMPT: {}".format(prompt))
+        #logger.info("initial_assistant:  {}".format(initial_assistant))
         return [
             {"role": "user", "content": prompt},
             {"role": "assistant_start", "content": initial_assistant},

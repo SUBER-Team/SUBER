@@ -7,6 +7,9 @@ from environment.movies.movie import Movie
 from environment.users import User
 import numpy as np
 
+from algorithms.logging_config  import get_logger
+
+logger = get_logger("suber_logger")
 
 class LLMRater(ABC):
     """
@@ -73,13 +76,14 @@ class LLMRater(ABC):
         prompt = self._get_prompt(
             user, item, num_interacted, interactions, retrieved_items
         )
-
+        
         if self.request_scale == "0-9":
             _, out = self.llm.request_rating_0_9(
                 self.system_prompt, few_shot_prompts + prompt
             )
             try:
                 rating = self.adjust_rating_out(float(out))
+                #logger.info("rater.py query return rating of {}".format(rating))
             except Exception:
                 rating = float(0)
             if self.random_rating:
