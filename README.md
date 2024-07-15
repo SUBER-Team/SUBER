@@ -13,7 +13,6 @@ This repository accompanies our research paper titled "**An LLM-based Recommende
 "**[An LLM-based Recommender System Environment](http://arxiv.org/abs/2406.01631)**" by *Nathan Coreco\*, Giorgio Piatti\*, Luca A. Lanzendörfer, Flint Xiaofeng Fan, Roger Wattenhofer*.
 
 **Citation:**
-
 ```bibTeX
 @misc{corecco2024llmbased,
       title={An LLM-based Recommender System Environment}, 
